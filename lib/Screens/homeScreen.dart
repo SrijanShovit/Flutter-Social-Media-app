@@ -1,8 +1,11 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:igclonemobile/Providers/appProvider.dart';
 import 'package:igclonemobile/Screens/feedScreen.dart';
 import 'package:igclonemobile/Screens/notificationScreen.dart';
+import 'package:igclonemobile/Screens/profile.dart';
 import 'package:igclonemobile/Screens/searchScreen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -12,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   PageController pageController;
   int _currIndex = 0;
 
@@ -31,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
     return Scaffold(
 
       body: PageView(
@@ -44,10 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           FeedScreen(),
           SearchScreen(),
-          NotificationScreen()
+          NotificationScreen(),
+          ProfileScreen(name: appProvider.user,)
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
         currentIndex: _currIndex,
         onTap: (index){
           //this onTap will get page index and pass to other onTap
@@ -59,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home),title: Text('Feed')),
           BottomNavigationBarItem(icon: Icon(Icons.search),title: Text('Search')),
           BottomNavigationBarItem(icon: Icon(Icons.notification_important),title: Text('Notification')),
+          BottomNavigationBarItem(icon: Icon(Icons.person),title: Text('Profile')),
 
         ],
       ),

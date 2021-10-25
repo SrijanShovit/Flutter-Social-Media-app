@@ -37,6 +37,10 @@ dependencies:
   google_sign_in: 4.5.1
   firebase_auth: 1.0.1
   uuid: ^3.0.5
+  material_design_icons_flutter: ^5.0.6295
+  material_floating_search_bar: ^0.3.4
+  new_gradient_app_bar: ^0.2.0
+  agora_rtc_engine: ^1.0.12
 
 
 dev_dependencies:

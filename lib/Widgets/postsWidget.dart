@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:igclonemobile/Models/postModel.dart';
 import 'package:igclonemobile/Providers/appProvider.dart';
+import 'package:igclonemobile/Screens/comments.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -68,13 +71,33 @@ class _PostWidgetState extends State<PostWidget> {
           ),
           Text(appProvider.user),
 
-          widget.postModel.type == 'image' ? Image.network(widget.postModel.url) :
+          widget.postModel.type == 'image' ? GestureDetector(
+              onDoubleTap: (){
+                int like = widget.postModel.likes;
+                FirebaseFirestore.instance.collection('posts').doc(widget.postModel.description).update({
+                  'likes':like+=1
+                });
+              },
+              child: Image.network(widget.postModel.url)) :
               Container(
                 child: AspectRatio(
                   aspectRatio: 16/9,
                   child: VideoPlayer(videoPlayerController),
                 ),
-              )
+              ),
+          
+          Row(
+            children: [
+              IconButton(onPressed: (){},
+                  icon: Icon(MdiIcons.heart)),
+              IconButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CommentScreen(comments: widget.postModel.comments,
+                description: widget.postModel.description,
+                )));
+              },
+                  icon: Icon(MdiIcons.comment))
+            ],
+          )
         ],
       ),
     );

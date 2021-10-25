@@ -46,7 +46,9 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
 
             StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('chats').doc(id).collection('messages').snapshots(),
+                stream: FirebaseFirestore.instance.collection('chats').doc(id).collection('messages').orderBy(
+                  'created At',descending: false
+                ).snapshots(),
                 builder: (context,snapshots){
                   return Container(
                     height: 500,
